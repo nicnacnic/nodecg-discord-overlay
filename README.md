@@ -1,31 +1,35 @@
-# nodecg-discord-overlay
-A Discord bot that monitors a voice channel and creates an overlay for your stream.
+# nodecg-dacbot
+A Discord bot to capture and stream voice channel audio to a specified audio device and show VC users.
 
-[![Release](https://img.shields.io/github/v/release/nicnacnic/nodecg-dacbot-no-voice?label=Release)](https://github.com/nicnacnic/speedcontrol-layouts/releases)
-![License](https://img.shields.io/github/license/nicnacnic/nodecg-dacbot-no-voice?label=License)
+[![Release](https://img.shields.io/github/v/release/nicnacnic/nodecg-dacbot?label=Release)](https://github.com/nicnacnic/nodecg-dacbot/releases)
+![License](https://img.shields.io/github/license/nicnacnic/nodecg-dacbot?label=License)
 [![Twitter](https://img.shields.io/twitter/follow/nicnacnic11?style=social)](https://twitter.com/nicnacnic11)
 [![Discord](https://img.shields.io/badge/-Join%20the%20Discord!-brightgreen?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/A34Qpfe)
 
-## What is nodecg-discord-overlay?
-nodecg-discord-overlay is a self-hosted Discord bot that monitors a voice channel of your choice and generates an overlay for your stream. It will show all users connected to the voice channel and will show when each user is speaking. You can specify whether you want the bot to hide users that are muted in the config. This is meant to accompany [DACBot](), which streams voice channel audio to a specified audio device.
+## What is DACBot?
+Discord Audio Capture Bot (also known as DACBot) is a self-hosted Discord bot that can capture the audio of all users in a voice channel and stream it to an audio device of your choice! Perfect for those times you want to capture Discord audio but don't want to go through the hassle of capturing Discord directly through OBS. It can also generate an overlay of all VC users, show who's speaking, and hide muted users from the overlay.
+
+*Not using [NodeCG](https://nodecg.dev)? Try the standalone version of [DACBot](https://github.com/nicnacnic/DACBot)!*
 
 ## Requirements
 - [NodeCG](https://nodecg.dev)
 
 ## Installation
-In a Command Prompt window, navigate to your root NodeCG folder. Then execute the command `nodecg install nicnacnic/nodecg-discord-overlay` to install. Once completed, execute `nodecg defaultconfig nodecg-discord-overlay` to generate the config file.
+In a Command Prompt window, navigate to your root NodeCG folder. Then execute the command `nodecg install nicnacnic/nodecg-dacbot` to install. Once completed, execute `nodecg defaultconfig nodecg-dacbot` to generate the config file.
 
-Your config file is located in the `cfg` folder in your NodeCG installation. Open `nodecg-discord-overlay.json`, you'll see something like this.
+Your config file is located in the `cfg` folder in your NodeCG installation. Open `nodecg-dacbot.json`, you'll see something like this.
 
 ```json
 {
     "botToken": "<bot_token>",
     "roleID": "<role_id>",
+    "device": "<device_name>",
     "hideMutedUsers": true
 }
 ```
 - `botToken`: Put your bot token here. For more information see below.
 - `roleID`: Put a role ID here. Users must have this role to operate the bot. Users with the Administrator or Manage Channels can always operate the bot regardless of their role.
+- `device`: The audio device that will be used for the stream. Leave blank for the default device. A list of available devices can be compiled by running the included tester script, navigate to `<path_to_nodecg>/bundles/nodecg-dacbot/utils` and run `node find_devices.js`.
 - `hideMutedUsers`: If set to true, the bot will hide users on the overlay if they're muted.
 
 ## Obtaining a Bot Token
@@ -61,9 +65,31 @@ You should see the bot become online on your server, and you're ready to type ou
 ![image](https://user-images.githubusercontent.com/39160563/118413508-af14d280-b66d-11eb-980a-67193bb2d0a3.png)
 
 ## Usage
-Once the bot has started, enter a voice channel, then ping the bot with the `connect` command to have it join your VC and generate the overlay. To close the overlay, simply ping the bot again with the `disconnect` command and the bot will leave. Ping the bot with the `help` command for some help. **Don't move the bot into another voice channel once connected, it might cause the overlay to glitch. Instead, disconnect the bot, move to the new voice channel, then connect the bot again.**
+Once the bot has started, enter a voice channel, then ping the bot with the `connect` command to have it join your VC and start capturing audio. To stop capturing audio, simply ping the bot again with the `disconnect` command and the bot will leave. Ping the bot with the `help` command for some help.
 
 ![image](https://user-images.githubusercontent.com/39160563/118412498-63abf580-b668-11eb-962b-9467ffc3a173.png)
+
+To change a user's volume, ping the bot with the `volume` command. The syntax is `@DACBot volume <user> <volume>`, where user is a ping to the selected user and volume is a value between 1 and 100.
+
+### Using in Multiple Voice Channels
+Currently, nodecg-dacbot only supports audio capture in one voice channel at a time. You can get around this by having two copies of the bundle, to do this make a copy of the `nodecg-dacbot` folder, rename it, then change the name in the bundle's `package.json`. If you did it correctly you can run two simultaneous versions of DACBot, but you still need two different bot tokens.
+
+## Troubleshooting
+**The audio is off-pitch!**
+
+DACBot only supports 48 kHz, using any other frequency might distort the audio. Please choose an audio device that supports 48 kHz.
+
+**The audio is super delayed!**
+
+Under normal circumstances, the audio should only be delayed by ~0.25s. If it's delayed more, try restarting the bot.
+
+**The commands don't work!**
+
+Are you sure you're typing in the command correctly? Available commands are `connect`, `disconnect`, `volume`, and `help`. Make sure you include a space between the ping and the command. Also, check your bot console for any potential errors.
+
+**The bot crashes when speaking from my browser!**
+
+Due to an issue with Discord.JS, only desktop/mobile is supported at the moment. Hopefully this gets fixed soon, but for the meantime make sure you're using desktop/mobile only.
 
 ## Contributing
 If you have any suggestions or bugfixes, please submit a pull request! Before you do, please make sure you **test your code** to make sure the bot works correctly with your new changes.
