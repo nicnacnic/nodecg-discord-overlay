@@ -39,7 +39,7 @@
             "description": "An explanation about the purpose of this instance.",
             "default": "",
             "examples": [
-                "<role_id"
+                "<role_id>"
             ]
         },
         "hideMutedUsers": {

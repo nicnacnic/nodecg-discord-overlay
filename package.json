@@ -1,8 +1,8 @@
 {
-  "name": "nodecg-dacbot-no-voice",
+  "name": "nodecg-discord-overlay",
   "version": "1.0.0",
-  "description": "A bot to capture and stream Discord voice channel audio to a specified device.",
-  "homepage": "https://github.com/nicnacnic/nodecg-dacbot",
+  "description": "A Discord bot that monitors a voice channel and creates an overlay for your stream.",
+  "homepage": "https://github.com/nicnacnic/nodecg-discord-overlay",
   "author": "nicnacnic",
   "url": "https://nicnacnic.com",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "graphics": [
       {
         "file": "vc-users.html",
-        "width": 300,
+        "width": 600,
         "height": 1000
       }
     ]
